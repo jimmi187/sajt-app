@@ -1,0 +1,12 @@
+version: '2.2'
+
+services:
+  web:
+    build: ./
+    image: sajt-app
+    container_name: sajt-app-co
+    restart: always
+    command: >
+      sh -c "npm run dev"
+    ports:
+      - "8080:8080"
