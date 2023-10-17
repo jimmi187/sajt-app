@@ -29,8 +29,8 @@ function FileOpened(...params) {
 
     return (
         <div>
-            <h1>{postId}</h1>
-            {!loading ? <pre className='content'>{textizfajla}</pre> : <LoadingContent/>} 
+            <h1 className='header'>{postId}</h1>
+            {!loading ? <pre className='content'>{textizfajla}</pre> : <LoadingContent innerCircleColor={"black"}/>} 
         </div>
     );
 }

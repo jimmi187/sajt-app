@@ -1,7 +1,8 @@
 .backpocket-container {
-    background-color: #afc6c9;
-    min-height: 100vh;
+    background-color: black;
+    min-height: 90vh;
     max-height: 100%;
+    border-radius: 20px;
 
 }
 
@@ -9,23 +10,44 @@
 .backpocket-grid {
     display: grid;
     grid-template-columns: 1fr 9fr;
-    grid-template-areas: "sidebar textfile";
+    grid-template-areas: 
+                "sidebar header"
+                "sidebar textfile";
+    gap: 0.7rem;
+    background-color: transparent;
+
     
+}
+
+.backpocket-container .header {
+    grid-area: header;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 50%;
+    border-radius: 20px;
+    background-color: #afc6c9;
 }
 
 .backpocket-container .sidebar {
     padding-top: 3rem;
-    min-height: 100vh;
-    max-height: 100%;
-    grid-area: sidebar;
-    border-right: 1px solid black;
+    min-height: 90vh;
+    grid-area: sidebar sidebar;
+    background-color: #afc6c9;
+    border-radius: 20px;
 }
 
 .backpocket-container .content {
     grid-area: textfile;
-    margin: 0 1rem 0 1rem;
+    
+    min-height: 90vh;
+    max-height: 100%;
+    margin: 0;
+    padding: 1rem;
     text-align: left;
-    height: 100%;
+    border-radius: 20px;
+    background-color: #afc6c9;
 
 }
 
@@ -36,7 +58,7 @@
     align-items: center;
     gap: 0.1em;
     margin: none;
-    padding: 0 0 ;
+    padding: 0 1rem ;
     list-style: none;
     text-align: left;
     
@@ -54,7 +76,7 @@
 .backpocket-grid li {
     
     margin: 0 0 ;
-    padding: 0 4rem;
+    padding: 0 3rem;
     border-radius: 5px;
 }
 
@@ -68,4 +90,11 @@
 }
 .backpocket-grid input {
     background-color: #bde5eb;
+    border: transparent;
+    height: 2rem;
+    margin: 0 0.2rem;
+    border-radius: 10px;
+    padding-left: 0.5rem;
+
+    
 }

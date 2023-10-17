@@ -3,18 +3,24 @@ import axios from "axios";
 import { CustomLink } from "../utils/CustomLInk";
 import "../css/backpocket.css"
 import { Outlet } from "react-router-dom";
+import LoadingContent from "../utils/LoadingContent";
 
 export default function Backpocket() {
     const [imena, setImena] = useState([]);
     const [filteredText, setFilteredText] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
+
         //files
         axios.get("https://api.github.com/repos/jimmi187/test-note/contents")
             .then((response) => {
                 console.log(response.data);
                 setImena(response.data);
+                setLoading(false);
             });
+
     }, [])
 
     function DisplayFilteredList({ imena, filteredText }) {
@@ -40,7 +46,7 @@ export default function Backpocket() {
                         placeholder="Search..."
                         onChange={(e) => setFilteredText(e.target.value)}
                     />
-                    <DisplayFilteredList imena={imena} filteredText={filteredText} />
+                    {loading ? <LoadingContent innerCircleColor={"#afc6c9"} /> : <DisplayFilteredList imena={imena} filteredText={filteredText} />}
                 </div>
                 <Outlet />
             </div>
