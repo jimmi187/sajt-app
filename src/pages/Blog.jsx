@@ -1,5 +1,6 @@
-import ArticlePrev from "../elem/ArticlePrev"
-import Article from "../elem/ArticlePrev"
+import ArticlePrev from "../elems/ArticlePrev"
+import Article from "../elems/ArticlePrev"
+import { CustomLink } from "../utils/CustomLInk";
 
 
 const article = {
@@ -7,11 +8,10 @@ const article = {
    description: "ovo je pocetak recenice ove prve i nadam se da je to tako kako jeste kratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opiskratak opisratak opis",
    id : 1,
    
-   // You can add more properties as needed
  };
 
-function Blog(  params ) {
- return(
+function Blog(  ...params ) {
+ return(<>
    <div className="blog">
       <h1>Welcome to my personal blog</h1>
       <div className="article-container">
@@ -25,6 +25,7 @@ function Blog(  params ) {
       </div>
       
    </div>
+   </>
  )
 }
 export default Blog

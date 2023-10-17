@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 
-
 function Square({ value , onSquareClick}) {
     return (
         <button className="square" onClick={onSquareClick}>{value}</button >
@@ -71,7 +70,9 @@ function Board({ xIsNext, squares, onPlay }) {
     }
 }
 
-function Game(){
+
+
+export default function TickTack(){
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
     const xIsNext = currentMove % 2 === 0;
@@ -112,15 +113,6 @@ function Game(){
                     <ol>{moves}</ol>                
                 </div>
             </div>
-        </>
-    )
-}
-
-
-export default function Igrice(params) {
-    return (
-        <>
-            <Game/>
         </>
     )
 }
