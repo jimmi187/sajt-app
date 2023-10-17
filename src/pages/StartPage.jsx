@@ -2,15 +2,7 @@ import { useState } from "react";
 
 
 
-function ProductCategoryRow({ category }) {
-   return (
-     <tr>
-       <th colSpan="2">
-         {category}
-       </th>
-     </tr>
-   );
- }
+
  
  function ProductRow({ product }) {
    const name = product.stocked ? product.name :
@@ -26,29 +18,20 @@ function ProductCategoryRow({ category }) {
    );
  }
  
- function ProductTable({ products, filterText, inStockOnly  }) {
+ function ProductTable({ products, filterText   }) {
    const rows = [];
-   let lastCategory = null;
  
    products.forEach((product) => {
       if(
          product.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1
       ) return;
-      if (inStockOnly && !product.stocked) return;
       
-      if (product.category !== lastCategory) {
-         rows.push(
-            <ProductCategoryRow
-            category={product.category}
-            key={product.category} />
-         );
-      }
+      
       rows.push(
          <ProductRow
             product={product}
             key={product.name} />
       );
-      lastCategory = product.category;
    });
  
    return (
@@ -64,7 +47,7 @@ function ProductCategoryRow({ category }) {
    );
  }
  
- function SearchBar({ filterText, inStockOnly, onFilterTextChange, onInStockOnlyChange }) {
+ function SearchBar({ filterText, onFilterTextChange  }) {
    return (
      <form>
        <input 
@@ -72,14 +55,7 @@ function ProductCategoryRow({ category }) {
          value={filterText} 
          onChange={(e) => onFilterTextChange(e.target.value)}
          placeholder="Search..." />
-       <label>
-         <input 
-            type="checkbox" 
-            checked={inStockOnly}
-            onChange={(e) => onInStockOnlyChange(e.target.checked)} />
-         {' '}
-         Only show products in stock
-       </label>
+      
      </form>
    );
  }
@@ -91,8 +67,7 @@ function ProductCategoryRow({ category }) {
    return (
      <div>
        <SearchBar 
-         filterText={filterText} 
-         inStockOnly={inStockOnly}
+         filterText={filterText}
          onFilterTextChange={setFilterText}
          onInStockOnlyChange={setInStockOnly}
          />

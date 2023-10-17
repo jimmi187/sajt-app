@@ -1,0 +1,71 @@
+.backpocket-container {
+    background-color: #afc6c9;
+    min-height: 100vh;
+    max-height: 100%;
+
+}
+
+
+.backpocket-grid {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+    grid-template-areas: "sidebar textfile";
+    
+}
+
+.backpocket-container .sidebar {
+    padding-top: 3rem;
+    min-height: 100vh;
+    max-height: 100%;
+    grid-area: sidebar;
+    border-right: 1px solid black;
+}
+
+.backpocket-container .content {
+    grid-area: textfile;
+    margin: 0 1rem 0 1rem;
+    text-align: left;
+    height: 100%;
+
+}
+
+.backpocket-container .list-of-files {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.1em;
+    margin: none;
+    padding: 0 0 ;
+    list-style: none;
+    text-align: left;
+    
+}
+
+.backpocket-grid a {
+    color: inherit;
+      text-decoration: none;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: .40rem;
+    }
+    
+.backpocket-grid li {
+    
+    margin: 0 0 ;
+    padding: 0 4rem;
+    border-radius: 5px;
+}
+
+.backpocket-grid li.active {
+    background-color: #2f9cb8;
+}
+
+.backpocket-grid li:hover {
+    background-color: #154653;
+
+}
+.backpocket-grid input {
+    background-color: #bde5eb;
+}
