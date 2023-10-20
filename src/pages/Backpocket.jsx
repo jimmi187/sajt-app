@@ -14,7 +14,7 @@ export default function Backpocket() {
         setLoading(true);
 
         //files
-        axios.get("https://api.github.com/repos/jimmi187/test-note/contents")
+        axios.get("https://api.github.com/repos/jimmi187/notes_pub/contents")
             .then((response) => {
                 console.log(response.data);
                 setImena(response.data);

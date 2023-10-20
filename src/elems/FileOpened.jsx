@@ -17,7 +17,7 @@ function FileOpened(...params) {
 
         setTimeout(() => {//no need for this ? ? ?
         //contente of file 
-        axios.get("https://raw.githubusercontent.com/jimmi187/test-note/master/" + postId)
+        axios.get("https://raw.githubusercontent.com/jimmi187/notes_pub/master/" + postId)
             .then(function (response) {
                 setTextizfajla(response.data);
                 setLoading(false);
