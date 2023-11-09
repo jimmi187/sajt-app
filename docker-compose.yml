@@ -2,7 +2,7 @@ version: '2.2'
 
 services:
   web:
-    build: ./
+    build: ./front/
     image: sajt-app
     container_name: sajt-app-co
     restart: always
@@ -10,3 +10,12 @@ services:
       sh -c "npm run dev"
     ports:
       - "8080:8080"
+  scrape: 
+    build: ./scrape_fl/
+    image: scrape-app
+    container_name:  scrape-app-co
+    restart: always
+    command: > 
+      sh -c "python fsfast.py"
+    ports:
+      - "4444:4444"

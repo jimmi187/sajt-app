@@ -30,7 +30,7 @@
 
 .backpocket-container .sidebar {
     padding-top: 3rem;
-    min-height: 90vh;
+    min-height: 85vh;
     grid-area: sidebar sidebar;
     background-color: #afc6c9;
     border-radius: 20px;
