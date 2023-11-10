@@ -33,7 +33,7 @@ function Recipes(params) {
 
    useEffect(() => {
       //files
-      axios.get("http://127.0.0.1:4444/yo")
+      axios.get("http://127.0.0.1:4444/yo") //for docker use http://scrape:4444/yo
          .then((response) => {
             setGroceries(Object.keys(response.data).map(key => ({ key, value: response.data[key] })));
             setShoppingList(groceries.map(x => ({ key: x.key, value: x.value[0] })));

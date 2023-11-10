@@ -27,7 +27,7 @@ products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg
 "ulje_maslin": ["/proizvodi/namirnice/ulje","tab-2. Maslinovo ulje"]}
 
 app = Flask(__name__)
-CORS(app, resources={r"/yo": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
+CORS(app, resources={r"/yo": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080", "http://web:8080"]}})
 job_result = {}
 
 def scheduled_job(specs=None):

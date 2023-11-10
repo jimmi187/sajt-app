@@ -10,7 +10,8 @@ services:
       sh -c "npm run dev"
     ports:
       - "8080:8080"
-    network_mode: "host"
+    networks:
+      - net12
 
   scrape: 
     build: ./scrape_fl/
@@ -21,4 +22,5 @@ services:
       sh -c "python fsfast.py"
     ports:
       - "4444:4444"
-    network_mode: "host"
+    networks:
+      - net12
