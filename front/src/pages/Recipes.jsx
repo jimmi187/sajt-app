@@ -33,14 +33,14 @@ function Recipes(params) {
 
    useEffect(() => {
       //files
-      axios.get("//zovinableju.ddns.net:4444/yo/")
+      axios.get("http://zovinableju.ddns.net:4444/yo/")
          .then((response) => {
             const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
             setGroceries(groceriesData);
             setShoppingList(groceriesData.map(x => ({ key: x.key, value: x.value[0] })));
          })
          .catch(() => {
-            axios.get("//localhost:4444/yo")
+            axios.get("http://localhost:4444/yo")
                .then((response) => {
                   const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
                   setGroceries(groceriesData);
