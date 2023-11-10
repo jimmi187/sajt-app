@@ -1,6 +1,5 @@
 from cenoteka import parse_items
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 import time 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
@@ -27,18 +26,18 @@ products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg
 "ulje_maslin": ["/proizvodi/namirnice/ulje","tab-2. Maslinovo ulje"]}
 
 app = Flask(__name__)
-CORS(app, resources={r"/yo": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080", "http://web:8080"]}})
 job_result = {}
 
 def scheduled_job(specs=None):
     t = time.time()
     global job_result
     for key, value in products.items():
-        start_url = value[0] # "/proizvodi/mlecni-proizvodi/jogurt" 
-        target_id = value[1] # "tab-Jogurt do 2kg" 
-        spec = value[2] if len(value) > 2 else specs
-        print(f"{key}\n {start_url}\n {target_id}\n {spec}")
-        job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
+        if key == "jogurt":
+            start_url = value[0] # "/proizvodi/mlecni-proizvodi/jogurt" 
+            target_id = value[1] # "tab-Jogurt do 2kg" 
+            spec = value[2] if len(value) > 2 else specs
+            print(f"{key}\n {start_url}\n {target_id}\n {spec}")
+            job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
     print(f"time spent in scrape: {time.time() - t}")
 
 @app.route('/rerun_job', methods=['POST'])
@@ -51,8 +50,11 @@ def rerun_job():
 @app.route('/yo', methods=['GET'])
 def get_job_result():
     global job_result  # Access the global variable
-    if job_result is not None:
-        return job_result
+    white_origin =  ['https://zovinableju.ddns.net', 'http://localhost:8080']
+    if job_result is not None and request.headers['Origin'] in white_origin:
+        response = jsonify(job_result)
+        response.headers.add('Access-Control-Allow-Origin', request.headers['Origin'] )
+        return response
     else:
         return jsonify({"message": "No result available yet."})
 
