@@ -33,7 +33,7 @@ function Recipes(params) {
 
    useEffect(() => {
       //files
-      axios.get("https://zovinableju.ddns.net/api/yo")
+      axios.get("https://zovinableju.ddns.net:4445/yo")
          .then((response) => {
             const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
             setGroceries(groceriesData);
