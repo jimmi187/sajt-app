@@ -69,7 +69,7 @@ def get_job_result():
         if origin == None and request.headers['Sec-Fetch-Site'] == 'same-origin':
             response.headers.add('Access-Control-Allow-Origin','*')
             return response
-        elif origin in white_origin: 
+        elif origin in white_origin and request.headers['Sec-Fetch-Site'] == 'same-site': 
             response.headers.add('Access-Control-Allow-Origin', origin)
             return response
 
