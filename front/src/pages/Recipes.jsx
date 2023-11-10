@@ -33,10 +33,11 @@ function Recipes(params) {
 
    useEffect(() => {
       //files
-      axios.get("http://127.0.0.1:4444/yo") //for docker use http://scrape:4444/yo
+      axios.get("http://zovinableju.ddns.net:4444/yo") 
          .then((response) => {
-            setGroceries(Object.keys(response.data).map(key => ({ key, value: response.data[key] })));
-            setShoppingList(groceries.map(x => ({ key: x.key, value: x.value[0] })));
+            const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
+            setGroceries(groceriesData);
+            setShoppingList(groceriesData.map(x => ({ key: x.key, value: x.value[0] })));
          })
 
          .catch((error) => {
@@ -44,7 +45,7 @@ function Recipes(params) {
             setShoppingList(null);
          });
 
-   }, [groceries])
+   }, [])
 
   
    return (
