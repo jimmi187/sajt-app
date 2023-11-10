@@ -1,6 +1,7 @@
 from cenoteka import parse_items
 from flask import Flask, jsonify, request
-import time 
+import time
+import logging 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
 "pavlaka ": ["/proizvodi/mlecni-proizvodi/pavlaka","tab-Kisela pavlaka", "400g"],
@@ -28,6 +29,8 @@ products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg
 app = Flask(__name__)
 job_result = {}
 
+logging.basicConfig(level=logging.INFO)
+
 def scheduled_job(specs=None):
     t = time.time()
     global job_result
@@ -51,12 +54,25 @@ def rerun_job():
 def get_job_result():
     global job_result  # Access the global variable
     white_origin =  ['https://zovinableju.ddns.net', 'http://localhost:8080']
-    if job_result is not None and request.headers['Origin'] in white_origin:
-        response = jsonify(job_result)
-        response.headers.add('Access-Control-Allow-Origin', request.headers['Origin'] )
-        return response
-    else:
-        return jsonify({"message": "No result available yet."})
+    origin = None
+    try:
+        origin = request.headers['Origin']
+    except Exception as e:
+        origin = None
+
+    #loggging
+    for header, value in request.headers.items():
+        logging.info(f"{header}: {value}")
+
+    if job_result is not None:
+        if origin == None and request.headers['Sec-Fetch-Site'] == 'same-origin':
+            response = jsonify(job_result)
+            response.headers.add('Access-Control-Allow-Origin','*')
+            return response
+        elif origin in white_origin: 
+            response = jsonify(job_result)
+            response.headers.add('Access-Control-Allow-Origin', origin)
+            return response
 
 scheduled_job()
 

@@ -10,7 +10,7 @@ docker rm scrape-app-co
 
 echo "rm images"
 docker rmi sajt-app:latest
-docker rmi sajt-app:latest
+docker rmi scrape-app:latest
 
 echo "building images"
 docker build -t sajt-app:latest ./front/
