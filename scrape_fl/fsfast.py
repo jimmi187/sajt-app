@@ -65,12 +65,11 @@ def get_job_result():
         logging.info(f"{header}: {value}")
 
     if job_result is not None:
+        response = jsonify(job_result)
         if origin == None and request.headers['Sec-Fetch-Site'] == 'same-origin':
-            response = jsonify(job_result)
             response.headers.add('Access-Control-Allow-Origin','*')
             return response
         elif origin in white_origin: 
-            response = jsonify(job_result)
             response.headers.add('Access-Control-Allow-Origin', origin)
             return response
 
