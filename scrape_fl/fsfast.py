@@ -1,11 +1,11 @@
 from cenoteka import parse_items
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 import time
 import logging 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
-"pavlaka ": ["/proizvodi/mlecni-proizvodi/pavlaka","tab-Kisela pavlaka", "400g"],
-"kafica ": ["/proizvodi/pica/kafa","tab-1. Tradicionalna kafa"],
+"pavlaka": ["/proizvodi/mlecni-proizvodi/pavlaka","tab-Kisela pavlaka", "400g"],
+"kafica": ["/proizvodi/pica/kafa","tab-1. Tradicionalna kafa"],
 "senf": ["/proizvodi/namirnice/majonez-senf-ren-", "tab-2. Senf"]    ,
 "majonez": ["/proizvodi/namirnice/majonez-senf-ren-", "tab-1. Majonez"],
 "kecap": ["/proizvodi/namirnice/kecap-i-paradajz-sos", "tab-Kečap"],
@@ -35,7 +35,7 @@ def scheduled_job(specs=None):
     t = time.time()
     global job_result
     for key, value in products.items():
-        if key == "jogurt":
+        if key in ["jogurt", "pavlaka", "kafica"]:
             start_url = value[0] # "/proizvodi/mlecni-proizvodi/jogurt" 
             target_id = value[1] # "tab-Jogurt do 2kg" 
             spec = value[2] if len(value) > 2 else specs
@@ -55,23 +55,31 @@ def get_job_result():
     global job_result  # Access the global variable
     white_origin =  ['https://zovinableju.ddns.net', 'http://localhost:8080']
     origin = None
+    sec = None
     try:
-        origin = request.headers['Origin']
+        origin = request.headers['Origin']    
     except Exception as e:
         origin = None
-
+    
+    try:
+        sec = request.headers['Sec-Fetch-Site']
+    except Exception as e:
+        sec = None 
+    
     #loggging
     for header, value in request.headers.items():
         logging.info(f"{header}: {value}")
 
     if job_result is not None:
         response = jsonify(job_result)
-        if origin == None and request.headers['Sec-Fetch-Site'] == 'same-origin':
+        if origin == None and sec == 'same-origin':
             response.headers.add('Access-Control-Allow-Origin','*')
             return response
-        elif origin in white_origin and request.headers['Sec-Fetch-Site'] == 'same-site': 
+        elif origin in white_origin and sec == 'same-site': 
             response.headers.add('Access-Control-Allow-Origin', origin)
             return response
+        else:
+            return render_template("error_page.html")
 
 scheduled_job()
 
