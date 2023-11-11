@@ -57,7 +57,7 @@ def rerun_job():
 def githook():
     logit(request)
     logging.info(f"ovoj je ______------========  {request.data} ==========----------_______")
-    
+    return '',200
 
     
 
