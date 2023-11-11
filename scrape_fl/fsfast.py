@@ -69,7 +69,11 @@ def githook():
         abort(403)
     payload_json = json.loads(payload)
     logging.info(f"\n\n\n{payload_json}")
-    if payload_json["ref"] == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
+    try:
+        ref = payload_json["ref"]
+    except Exception as e:
+        ref = None
+    if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
         
         
