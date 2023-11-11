@@ -1,7 +1,7 @@
 from cenoteka import parse_items
-from flask import Flask, jsonify, request, render_template
-import time
-import logging 
+from flask import Flask, jsonify, request, render_template, abort
+import time, logging, hashlib, hmac
+
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
 "pavlaka": ["/proizvodi/mlecni-proizvodi/pavlaka","tab-Kisela pavlaka", "400g"],
@@ -43,7 +43,7 @@ def scheduled_job(specs=None):
             job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
     print(f"time spent in scrape: {time.time() - t}")
 
-def logit(request):
+def log_headers(request):
     for header, value in request.headers.items():
         logging.info(f"{header}: {value}")
 
@@ -55,8 +55,17 @@ def rerun_job():
 
 @app.route('/hookit', methods=['POST'])
 def githook():
-    logit(request)
-    logging.info(f"ovoj je ______------========  {request.data} ==========----------_______")
+    secret = 'ovojesec' #change to env var
+    log_headers(request)
+    payload = request.data
+    logging.info(f"\n\novoj je ______------========  {payload} ==========----------_______\n\n")
+    signature = request.headers.get('X-Hub-Signature')
+    if not signature:
+        abort(403)
+    expected_signature = 'sha1' + hmac.new(secret.encode(), payload, hashlib.sha1).hexdigest()
+    if not hmac.compare_digest(signature, expected_signature):
+        abort(403)
+    
     return '',200
 
     
