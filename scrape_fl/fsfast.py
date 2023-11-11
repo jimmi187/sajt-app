@@ -1,6 +1,6 @@
 from cenoteka import parse_items
 from flask import Flask, jsonify, request, render_template, abort
-import time, logging, hashlib, hmac
+import time, logging, hashlib, hmac, json
 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
@@ -67,15 +67,10 @@ def githook():
         logging.info(f"\n\n\nsignatire {signature}")
         logging.info(f"\n\n\nexpected_signature {expected_signature}")
         abort(403)
-    if payload["ref"] == "refs/heads/test1" and request.headers["X-Github-Event"] == 'push':
+    if json.loads(payload)["ref"] == "refs/heads/test1" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
         
     return '',200
-
-
-
-    
-
 
 @app.route('/yo', methods=['GET'])
 def get_job_result():
