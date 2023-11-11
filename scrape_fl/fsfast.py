@@ -62,7 +62,7 @@ def githook():
     signature = request.headers.get('X-Hub-Signature')
     if not signature:
         abort(403)
-    expected_signature = 'sha1' + hmac.new(secret.encode(), payload, hashlib.sha1).hexdigest()
+    expected_signature = 'sha1=' + hmac.new(secret.encode(), payload, hashlib.sha1).hexdigest()
     if not hmac.compare_digest(signature, expected_signature):
         logging.info(f"\n\n\novo je signatire {signature}")
         logging.info(f"\n\n\nexpected_signature {expected_signature}")
