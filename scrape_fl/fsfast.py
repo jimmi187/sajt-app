@@ -76,7 +76,6 @@ def githook():
         os.chdir('..')
         subprocess.run(['sh', 'git pull'])
         subprocess.run(['sh', './build_and_deploy.sh'])
-        
     return '',200
 
 @app.route('/yo', methods=['GET'])
