@@ -43,11 +43,23 @@ def scheduled_job(specs=None):
             job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
     print(f"time spent in scrape: {time.time() - t}")
 
+def logit(request):
+    for header, value in request.headers.items():
+        logging.info(f"{header}: {value}")
+
 @app.route('/rerun_job', methods=['POST'])
 def rerun_job():
     # Trigger the job manually when a POST request is made to this endpoint
     scheduled_job()
     return jsonify({"message": "just a message."})
+
+@app.route('/hookit', methods=['POST'])
+def githook():
+    logit(request)
+    logging.info(f"ovoj je ______------========  {request.data} ==========----------_______")
+    
+
+    
 
 
 @app.route('/yo', methods=['GET'])
@@ -67,8 +79,7 @@ def get_job_result():
         sec = None 
     
     #loggging
-    for header, value in request.headers.items():
-        logging.info(f"{header}: {value}")
+    logit(request)
 
     if job_result is not None:
         response = jsonify(job_result)
