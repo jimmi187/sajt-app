@@ -1,6 +1,6 @@
 from cenoteka import parse_items
 from flask import Flask, jsonify, request, render_template, abort
-import time, logging, hashlib, hmac, json
+import time, logging, hashlib, hmac, json, subprocess, os
 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
@@ -58,7 +58,7 @@ def githook():
     secret = 'ovojesec' #change to env var
     log_headers(request)
     payload = request.data
-    logging.info(f"\n\novoj je ______------========  {payload} ==========----------_______\n\n")
+    logging.info(f"\n\npayload ______------========  {payload} ==========----------_______\n\n")
     signature = request.headers.get('X-Hub-Signature')
     if not signature:
         abort(403)
@@ -67,16 +67,15 @@ def githook():
         logging.info(f"\n\n\nsignatire {signature}")
         logging.info(f"\n\n\nexpected_signature {expected_signature}")
         abort(403)
-    payload_json = json.loads(payload)
-    logging.info(f"\n\n\n{payload_json}")
     try:
-        ref = payload_json["ref"]
+        ref = json.loads(payload)["ref"]
     except Exception as e:
         ref = None
     if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
-        
-        
+        os.chdir('..')
+        subprocess.run(['sh', 'git pull'])
+        subprocess.run(['sh', './build_and_deploy.sh'])
         
     return '',200
 
@@ -96,8 +95,8 @@ def get_job_result():
     except Exception as e:
         sec = None 
     
-    #loggging
-    logit(request)
+    #loggging headers
+    log_headers(request)
 
     if job_result is not None:
         response = jsonify(job_result)
