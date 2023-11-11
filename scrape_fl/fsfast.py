@@ -64,10 +64,12 @@ def githook():
         abort(403)
     expected_signature = 'sha1=' + hmac.new(secret.encode(), payload, hashlib.sha1).hexdigest()
     if not hmac.compare_digest(signature, expected_signature):
-        logging.info(f"\n\n\novo je signatire {signature}")
+        logging.info(f"\n\n\nsignatire {signature}")
         logging.info(f"\n\n\nexpected_signature {expected_signature}")
         abort(403)
-    
+    if payload["ref"] == "refs/heads/test1" and request.headers["X-Github-Event"] == 'push':
+        logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
+        
     return '',200
 
     
