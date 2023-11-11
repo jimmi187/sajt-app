@@ -20,3 +20,6 @@ services:
       sh -c "python fsfast.py"
     ports:
       - "4444:4444"
+
+
+      asd
