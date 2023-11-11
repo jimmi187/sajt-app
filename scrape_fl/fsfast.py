@@ -78,6 +78,8 @@ def githook():
         subprocess.run(['sh', './build_and_deploy.sh'])
     return '',200
 
+
+
 @app.route('/yo', methods=['GET'])
 def get_job_result():
     global job_result  # Access the global variable
