@@ -70,6 +70,8 @@ def githook():
     if json.loads(payload)["ref"] == "refs/heads/test1" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
         
+        
+        
     return '',200
 
 @app.route('/yo', methods=['GET'])
