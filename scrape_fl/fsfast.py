@@ -73,8 +73,8 @@ def githook():
         ref = None
     if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
-        os.chdir('..')
-        subprocess.run(['sh', 'git pull'])
+        subprocess.run('..', shell=True)
+        subprocess.run('git pull', shell=True)
         subprocess.run(['sh', './build_and_deploy.sh'])
     return '',200
 
