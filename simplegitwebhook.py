@@ -2,6 +2,7 @@ from flask import Flask, request, abort
 import logging, hashlib, hmac, json, subprocess, os
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
 
 def execute_command(command):
     result = subprocess.run(command, capture_output=True, text=True)
