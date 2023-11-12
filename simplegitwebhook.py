@@ -4,15 +4,6 @@ import logging, hashlib, hmac, json, subprocess, os
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
-def execute_command(command):
-    result = subprocess.run(command, capture_output=True, text=True)
-    
-    if result.returncode == 0:
-        output = result.stdout
-        return f"Command executed successfully. Output: {output}"
-    else:
-        error = result.stderr
-        return f"Command failed with return code {result.returncode}. Error: {error}"
 
 def log_headers(request):
     for header, value in request.headers.items():
@@ -39,10 +30,22 @@ def githook():
     if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
         logging.info(f"Current working directory: {os.getcwd()}")
-        pullit = ["echo", "Heloooo"]
-        execute_command(pullit)
-        sc = ['sh', './test1.sh']
-        execute_command(sc)
+        pullit = "echo Heloooo"
+        result_command = subprocess.run(pullit, shell=True)
+        if result_command.returncode == 0:
+            logging.info("Command executed successfully")
+        else:
+            logging.info(f"Command failed with return code {result_command.returncode}")
+        
+        
+        script_path = './test1.sh'
+        result_script = subprocess.run(['sh', script_path])
+
+        # Check the result of the script
+        if result_script.returncode == 0:
+            logging.info("Script executed successfully")
+        else:
+            logging.info(f"Script failed with return code {result_script.returncode}")
     return '',200
 
 if __name__ == '__main__':
