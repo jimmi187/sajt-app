@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "stopping container"
 docker stop sajt-app-co
