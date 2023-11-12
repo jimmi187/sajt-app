@@ -73,9 +73,9 @@ def githook():
         ref = None
     if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")        
-        logging.info("Current working directory:", os.getcwd())
+        logging.info(f"Current working directory: {os.getcwd()}")
         os.chdir('..')
-        logging.info("Current working directory:", os.getcwd())
+        logging.info(f"Current working directory: {os.getcwd()}")
         pullit = 'git pull'
         result_command = subprocess.run(pullit, shell=True)
         if result_command.returncode == 0:
@@ -84,8 +84,8 @@ def githook():
             print(f"Command failed with return code {result_command.returncode}")
 
         script_path = './build_and_deploy.sh'
-        logging.info("Script path:", script_path)
-        logging.info("Current working directory:", os.getcwd())
+        logging.info(f"Script path: {script_path}")
+        logging.info(f"Current working directory: {os.getcwd()}")
         result_script = subprocess.run(['sh', script_path])
         if result_script.returncode == 0:
             print("Script executed successfully")
