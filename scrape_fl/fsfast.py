@@ -57,13 +57,11 @@ def rerun_job():
 def get_job_result():
     global job_result  # Access the global variable
     white_origin =  ['https://zovinableju.ddns.net', 'http://localhost:8080']
-    origin = None
-    sec = None
+
     try:
         origin = request.headers['Origin']    
     except Exception as e:
         origin = None
-    
     try:
         sec = request.headers['Sec-Fetch-Site']
     except Exception as e:
@@ -87,4 +85,3 @@ scheduled_job()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4444)
-
