@@ -18,5 +18,3 @@ docker build -t scrape-app:latest ./scrape_fl/
 
 echo "startig containers via docker compose"
 docker compose up -d 
-
-
