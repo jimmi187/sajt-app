@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
-import  logging, hashlib, hmac, json, subprocess, os
-from scrape_fl.fsfast import log_headers
+import logging, hashlib, hmac, json, subprocess, os
 
 app = Flask(__name__)
 
@@ -14,6 +13,9 @@ def execute_command(command):
         error = result.stderr
         return f"Command failed with return code {result.returncode}. Error: {error}"
 
+def log_headers(request):
+    for header, value in request.headers.items():
+        logging.info(f"{header}: {value}")
 
 @app.route('/hookit', methods=['POST'])
 def githook():
