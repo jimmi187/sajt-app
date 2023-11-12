@@ -4,6 +4,17 @@ from scrape_fl.fsfast import log_headers
 
 app = Flask(__name__)
 
+def execute_command(command):
+    result = subprocess.run(command, capture_output=True, text=True)
+    
+    if result.returncode == 0:
+        output = result.stdout
+        return f"Command executed successfully. Output: {output}"
+    else:
+        error = result.stderr
+        return f"Command failed with return code {result.returncode}. Error: {error}"
+
+
 @app.route('/hookit', methods=['POST'])
 def githook():
     secret = 'ovojesec' #change to env var
@@ -25,21 +36,10 @@ def githook():
     if ref == "refs/heads/master" and request.headers["X-Github-Event"] == 'push':
         logging.info("\n\n======================\ni got a push to a master\n======================\n\n")
         logging.info(f"Current working directory: {os.getcwd()}")
-        pullit = 'echo "Heloooo"'
-        result_command = subprocess.run(pullit, shell=True)
-        if result_command.returncode == 0:
-            print("Command executed successfully")
-        else:
-            print(f"Command failed with return code {result_command.returncode}")
-
-        script_path = './test1.sh'
-        logging.info(f"Script path: {script_path}")
-        logging.info(f"Current working directory: {os.getcwd()}")
-        result_script = subprocess.run(['sh', script_path])
-        if result_script.returncode == 0:
-            print("Script executed successfully")
-        else:
-            print(f"Script failed with return code {result_script.returncode}")
+        pullit = ["echo", "Heloooo"]
+        execute_command(pullit)
+        sc = ['sh', './test1.sh']
+        execute_command(sc)
     return '',200
 
 if __name__ == '__main__':
