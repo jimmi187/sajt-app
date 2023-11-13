@@ -41,6 +41,7 @@ def scheduled_job(specs=None):
             spec = value[2] if len(value) > 2 else specs
             print(f"{key}\n {start_url}\n {target_id}\n {spec}")
             job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
+    job_result["kafica"] = [i for i in job_result.get("kafica", []) if any(size in i["name"] for size in ["100g", "200g", "500g"])]
     print(f"time spent in scrape: {time.time() - t}")
 
 def log_headers(request):
