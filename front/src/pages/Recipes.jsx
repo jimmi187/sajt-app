@@ -5,60 +5,45 @@ import { generatePath } from "react-router-dom";
 
 
 
-function OneProd({ prod }) {
-   let key = prod.key;
-   let x2 = prod.value;
-   return (
-      <>
-         <h3>{key} <button> add more </button> </h3>
-         <p> {x2.name}  =======  {x2.price}  ======= {x2.store.map(x => x + " ")}<button> change </button> <button> remove </button></p>
-
-      </>)
-}
-
-function Cart({ updateShoppingList, listOfGroceries, shoppigList }) {
+function Ctgry({ ct, sList }) {
+   
    return (
       <div>
-         {listOfGroceries !== null ? shoppigList.map(x => <OneProd prod={x} />) : <li>no data</li>}
+         <p>{ct}</p>
+         {sList && sList.filter(x => x.category === ct)}
       </div>
    );
 }
 
-
-
 function Recipes(params) {
    const [groceries, setGroceries] = useState([]);
-   const [shoppigList, setShoppingList] = useState([]);
-
+   const [shoppigList, setShoppingList] = useState(null);
 
    useEffect(() => {
       //files
       axios.get("https://zovinableju.ddns.net/api/yo")
          .then((response) => {
-            const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
+            const groceriesData = Object.keys(response.data).flatMap(x => response.data[x].map(c =>({category: x, name: c.name, price: c.price, store: c.store})));
             setGroceries(groceriesData);
-            setShoppingList(groceriesData.map(x => ({ key: x.key, value: x.value[0] })));
          })
          .catch(() => {
             axios.get("http://localhost:4444/yo")
                .then((response) => {
-                  const groceriesData = Object.keys(response.data).map(key => ({ key, value: response.data[key] }));
+                  const groceriesData = Object.keys(response.data).flatMap(x => response.data[x].map(c =>({category: x, name: c.name, price: c.price, store: c.store})));
                   setGroceries(groceriesData);
-                  setShoppingList(groceriesData.map(x => ({ key: x.key, value: x.value[0] })));
+                  console.log(response.data)
                })
                .catch((error) => {
                   console.log(error);
-                  setShoppingList(null);
                });
          });
 
    }, [])
 
-
    return (
       <div style={{ color: 'white' }}>
          <h1 >Recepies</h1>
-         <Cart updateShoppingList={setShoppingList} listOfGroceries={groceries} shoppigList={shoppigList} />
+         <div>{[...new Set(groceries.map(x => x.category))].map(x => <Ctgry ct={x} sList={shoppigList}/>)}</div>
       </div>
    )
 }

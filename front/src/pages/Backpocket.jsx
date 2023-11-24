@@ -12,7 +12,6 @@ export default function Backpocket() {
 
     useEffect(() => {
         setLoading(true);
-
         //files
         axios.get("https://api.github.com/repos/jimmi187/notes_pub/contents")
             .then((response) => {
