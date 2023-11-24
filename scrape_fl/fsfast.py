@@ -1,6 +1,6 @@
 from cenoteka import parse_items
 from flask import Flask, jsonify, request, render_template, abort
-import time, logging, hashlib, hmac, json, subprocess, os
+import time, logging, re
 
 
 products = {"jogurt" : ["/proizvodi/mlecni-proizvodi/jogurt", "tab-Jogurt do 2kg"],
@@ -41,7 +41,13 @@ def scheduled_job(specs=None):
             spec = value[2] if len(value) > 2 else specs
             print(f"{key}\n {start_url}\n {target_id}\n {spec}")
             job_result[key] = parse_items(start_url, target_id, spec) #specific_prod=spec)
-    job_result["kafica"] = [i for i in job_result.get("kafica", []) if any(size in i["name"] for size in ["100g", "200g", "500g"])]
+    
+    #best price for gram
+    pattern = re.compile(r'\b(\d+(\.\d+)?)g\b')
+    lfs = [key for key, value in job_result.items() if all(pattern.search(i["name"]) for i in value)]
+    for i in lfs:
+        job_result[i].sort(key=lambda i: float(i["price"]) /  float(pattern.search(i["name"]).group(1)))    
+    
     print(f"time spent in scrape: {time.time() - t}")
 
 def log_headers(request):

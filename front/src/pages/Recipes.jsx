@@ -31,7 +31,7 @@ function Recipes(params) {
                .then((response) => {
                   const groceriesData = Object.keys(response.data).flatMap(x => response.data[x].map(c =>({category: x, name: c.name, price: c.price, store: c.store})));
                   setGroceries(groceriesData);
-                  console.log(response.data)
+                  console.log(groceries);
                })
                .catch((error) => {
                   console.log(error);
