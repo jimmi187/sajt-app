@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import "./css/nav.css"
 import "./css/blog.css"
 import "./css/igrice.css"
+import "./css/recepies.css"
 import Portfolio from './pages/Portfolio'
 import Blog from './pages/Blog'
 import Recipes from './pages/Recipes'

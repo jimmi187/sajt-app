@@ -1,0 +1,11 @@
+.notification {
+    position: fixed;
+    top: 5px; /* Adjust the distance from the top */
+    right: 5px; /* Adjust the distance from the right */
+    width: 150px; /* Set the width of the child */
+    height: 100px; /* Set the height of the child */
+    background-color: lightblue;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: opacity 1s ease-in-out;;
+}
